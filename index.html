@@ -3,292 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concentrix - Digital Task Platform</title>
+    <title>Concentrix Platform - Official System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main: #005a7d; --accent: #14b8a6; --lucky: #f97316; }
-        body { background: var(--main); color: white; font-family: sans-serif; margin: 0; user-select: none; }
-        .page { display: none; min-height: 100vh; padding-bottom: 90px; }
-        .page.active { display: block; }
-        .form-input { width: 100%; border: 1px solid #ddd; border-radius: 12px; padding: 15px; color: black; margin-bottom: 15px; background: #f9fafb; outline: none; }
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #ddd; color: #888; z-index: 1000; }
-        .nav-item.active { color: var(--accent); }
-        .prod-img { height: 80px; object-fit: contain; }
-        .done { opacity: 0.3; pointer-events: none; border: 2px solid var(--accent) !important; }
-        
-        /* Modal Styles */
-        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: white; color: black; border-radius: 25px; padding: 30px; text-align: center; width: 100%; max-width: 400px; }
-        .lucky-content { border: 5px solid var(--lucky); }
-        .negative { color: #ef4444 !important; }
+        :root { --main: #005a7d; --accent: #14b8a6; }
+        body { background: #f4f7f9; font-family: sans-serif; margin: 0; }
+        .view { display: none; min-height: 100vh; }
+        .view.active { display: block; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
+        .nav-item { color: #9ca3af; text-align: center; font-size: 10px; cursor: pointer; flex: 1; }
+        .nav-item.active { color: var(--main); font-weight: bold; }
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; border-radius: 24px; padding: 24px; width: 100%; max-width: 360px; }
     </style>
 </head>
 <body>
 
-    <div id="register-page" class="page active bg-white text-gray-800 pt-16">
-        <div class="auth-card p-8 shadow-2xl rounded-3xl w-full max-w-sm mx-auto border border-gray-100">
+    <div id="register-view" class="view active bg-[#005a7d] flex items-center justify-center p-6">
+        <div class="bg-white p-8 rounded-[40px] w-full max-w-sm shadow-2xl">
             <h1 class="text-3xl font-black italic text-[#005a7d] text-center mb-8 uppercase">concentrix</h1>
-            <h2 class="text-xl font-bold text-teal-500 mb-6">Create Account</h2>
-            <input type="text" id="reg-user" class="form-input" placeholder="Username">
-            <input type="password" id="reg-pass" class="form-input" placeholder="Password">
-            <input type="text" id="reg-code" class="form-input" placeholder="Invitation Code (LUCKY777)">
-            <button onclick="handleRegister()" class="w-full bg-teal-500 text-white py-4 rounded-xl font-bold text-lg shadow-lg">Register</button>
-            <p class="text-center mt-6 text-sm text-gray-500">Already have an account? <span class="text-teal-500 font-bold" onclick="showPage('login-page')">Login</span></p>
+            <input type="text" id="reg-user" class="w-full border p-4 rounded-2xl mb-4 bg-gray-50 outline-none" placeholder="Username">
+            <input type="password" id="reg-pass" class="w-full border p-4 rounded-2xl mb-4 bg-gray-50 outline-none" placeholder="Password">
+            <input type="text" id="reg-code" class="w-full border p-4 rounded-2xl mb-8 bg-gray-50 outline-none" placeholder="Invite Code (LUCKY777)">
+            <button onclick="handleRegister()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">Register Now</button>
+            <p class="text-center mt-6 text-sm">Already have an account? <span class="text-[#005a7d] font-bold cursor-pointer" onclick="navigateTo('login-view')">Login</span></p>
         </div>
     </div>
 
-    <div id="login-page" class="page bg-white text-gray-800 pt-16">
-        <div class="auth-card p-8 shadow-2xl rounded-3xl w-full max-w-sm mx-auto border border-gray-100">
+    <div id="login-view" class="view bg-[#005a7d] flex items-center justify-center p-6">
+        <div class="bg-white p-8 rounded-[40px] w-full max-w-sm shadow-2xl">
             <h1 class="text-3xl font-black italic text-[#005a7d] text-center mb-8 uppercase">concentrix</h1>
-            <h2 class="text-xl font-bold mb-6">Welcome Back</h2>
-            <input type="text" id="login-user" class="form-input" placeholder="Username">
-            <input type="password" id="login-pass" class="form-input" placeholder="Password">
-            <button onclick="handleLogin()" class="w-full bg-[#005a7d] text-white py-4 rounded-xl font-bold text-lg shadow-lg">Login</button>
+            <input type="text" id="login-user" class="w-full border p-4 rounded-2xl mb-4 bg-gray-50 outline-none" placeholder="Username">
+            <input type="password" id="login-pass" class="w-full border p-4 rounded-2xl mb-8 bg-gray-50 outline-none" placeholder="Password">
+            <button onclick="handleLogin()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">Login</button>
+            <p class="text-center mt-6 text-sm">New here? <span class="text-[#005a7d] font-bold cursor-pointer" onclick="navigateTo('register-view')">Create Account</span></p>
         </div>
     </div>
 
-    <div id="home-page" class="page">
-        <div class="p-5 flex justify-between items-center bg-[#004d6b]">
-            <h1 class="text-2xl font-black italic">concentrix</h1>
-            <i class="fas fa-comment-dots text-xl text-teal-400" onclick="openCSModal()"></i>
+    <div id="home-view" class="view">
+        <div class="bg-[#005a7d] p-6 text-white flex justify-between items-center">
+            <h1 class="text-xl font-black italic">concentrix</h1>
+            <i class="fas fa-headset text-xl" onclick="navigateTo('cs-view')"></i>
         </div>
-        <div class="p-6">
-            <h2 class="text-2xl font-light">Hi! Welcome</h2>
-            <div class="mt-3 bg-white/10 p-4 rounded-2xl flex justify-between items-center">
-                <span id="u-name" class="font-bold text-teal-400">Lalolargo <i class="fas fa-check-circle text-xs"></i></span>
-                <span class="text-xs bg-white/10 px-3 py-1 rounded-full">Score: 100</span>
-            </div>
-            <div class="bg-white rounded-3xl p-6 mt-6 shadow-2xl flex items-center gap-5 text-gray-800">
-                <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-4xl">🏆</div>
-                <div>
-                    <h4 class="font-black text-amber-500 text-lg">VIP Level 1</h4>
-                    <p class="text-xs text-gray-400">0.50 Profits per task <br>40 Tasks/Set</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="optimize-page" class="page pb-28">
-        <div class="p-5 text-xl font-bold border-b border-white/10 bg-[#004d6b]">Optimization</div>
-        <div id="grid" class="grid grid-cols-4 gap-3 p-4"></div>
-        <div class="p-5">
-            <div class="bg-white text-gray-900 rounded-3xl p-6 shadow-xl sticky bottom-20 z-50 border">
-                <div class="flex justify-between font-bold mb-2 text-sm text-gray-400"><span>Today's Profit</span> <span>Available Balance</span></div>
-                <div class="flex justify-between font-black text-xl mb-4 text-[#005a7d]"><span id="p-val">$ 0.00</span> <span id="b-val">$ 200.00</span></div>
-                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-2"><div id="bar" class="bg-teal-500 h-full w-0"></div></div>
-                <p id="s-val" class="text-center text-xs text-gray-400">0 / 40 Completed</p>
-            </div>
-        </div>
-    </div>
-
-    <div id="records-page" class="page bg-gray-50">
-        <div class="p-5 text-xl font-bold border-b bg-white text-[#005a7d]">Order Records</div>
-        <div id="order-list" class="p-4 space-y-4">
-            <p class="text-center text-gray-400 mt-20">No Records Found</p>
-        </div>
-    </div>
-
-    <div id="confirm-modal" class="modal">
-        <div class="modal-content">
-            <img id="m-img" src="" class="prod-img mx-auto mb-4">
-            <p id="m-name" class="font-bold text-sm mb-2 truncate"></p>
-            <p id="m-price" class="text-3xl font-black text-teal-600 mb-6"></p>
+        <div class="m-5 bg-white rounded-[32px] p-6 shadow-sm border border-gray-50">
+            <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase tracking-wider">Total Balance (USD)</p>
+            <h2 id="balance-main" class="text-4xl font-black text-[#005a7d] mb-8">$ 10.00</h2>
             <div class="flex gap-4">
-                <button onclick="closeConfirmModal()" class="flex-1 bg-gray-100 py-3 rounded-xl font-bold">Cancel</button>
-                <button onclick="finishOptimize()" class="flex-1 bg-teal-500 text-white py-3 rounded-xl font-bold">Confirm</button>
+                <button onclick="navigateTo('deposit-view')" class="flex-1 bg-[#005a7d] text-white py-3.5 rounded-2xl font-bold shadow-md">Deposit</button>
+                <button onclick="navigateTo('withdraw-view')" class="flex-1 bg-teal-500 text-white py-3.5 rounded-2xl font-bold shadow-md">Withdraw</button>
+            </div>
+        </div>
+        <div class="px-5 grid grid-cols-2 gap-4">
+            <div class="bg-white p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500"><i class="fas fa-chart-line"></i></div>
+                <div><p class="text-[10px] text-gray-400">Today Profit</p><p id="h-profit" class="font-bold text-sm">$ 0.00</p></div>
+            </div>
+            <div class="bg-white p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500"><i class="fas fa-check-double"></i></div>
+                <div><p class="text-[10px] text-gray-400">Completed</p><p id="h-count" class="font-bold text-sm">0 / 40</p></div>
             </div>
         </div>
     </div>
 
-    <div id="lucky-modal" class="modal">
-        <div class="modal-content lucky-content">
-            <div class="text-6xl mb-4">🚀</div>
-            <h3 class="text-2xl font-black text-orange-500 italic mb-3">Lucky Order Encouneterd!</h3>
-            <p class="text-gray-500 text-sm mb-6">High commission task found. Requires account balance check.</p>
-            <div class="bg-gray-100 p-5 rounded-2xl mb-8">
-                <p class="text-[10px] text-gray-400 uppercase font-bold">Lucky Order Amount</p>
-                <p id="l-price" class="text-3xl font-black text-red-500"></p>
+    <div id="optimize-view" class="view bg-gray-50 pb-28">
+        <div class="p-5 bg-white border-b font-bold text-[#005a7d] flex items-center gap-3">
+            <i class="fas fa-bolt"></i> OPTIMIZATION
+        </div>
+        <div id="grid" class="grid grid-cols-2 gap-4 p-5"></div>
+        <div class="px-5 fixed bottom-24 left-0 right-0">
+            <div class="bg-white p-6 rounded-[30px] shadow-2xl border">
+                <div class="flex justify-between mb-2 text-[10px] font-bold text-gray-400 uppercase"><span>Job Progress</span> <span id="s-val">0 / 40</span></div>
+                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-4"><div id="bar" class="bg-teal-500 h-full w-0"></div></div>
+                <button id="start-btn" onclick="triggerTask()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">START OPTIMIZATION</button>
             </div>
-            <button onclick="submitLucky()" class="w-full bg-orange-500 text-white py-4 rounded-xl font-bold text-lg">Submit Now (Pending)</button>
         </div>
     </div>
 
-    <div id="cs-modal" class="modal">
-        <div class="modal-content">
-            <h3 class="font-bold text-lg mb-6">Select Service</h3>
-            <button onclick="window.open('https://t.me/YOUR_TELEGRAM_LINK')" class="w-full bg-blue-500 text-white py-4 rounded-xl font-bold mb-4 flex items-center justify-center gap-3"><i class="fab fa-telegram-plane text-xl"></i>Telegram Support</button>
-            <button onclick="alert('Live Chat opening...')" class="w-full bg-teal-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-3"><i class="fas fa-headset text-xl"></i>Live Chat</button>
-            <button onclick="closeCSModal()" class="mt-4 text-sm text-gray-400">Close</button>
+    <div id="my-view" class="view">
+        <div class="bg-[#005a7d] pt-16 pb-24 px-8 text-white rounded-b-[50px] text-center shadow-lg">
+            <div class="w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl border-2 border-white/30 shadow-inner">👤</div>
+            <h2 id="my-name" class="text-2xl font-black italic">User</h2>
+            <p class="text-xs opacity-60">Account ID: <span id="my-id"></span></p>
+        </div>
+        <div class="px-6 -mt-10">
+            <div class="bg-white p-6 rounded-2xl shadow-sm mb-4 flex justify-between items-center border border-gray-50" onclick="navigateTo('cs-view')">
+                <div class="flex items-center gap-4 text-gray-700 font-bold text-sm"><i class="fas fa-headset text-blue-500"></i> Customer Service</div>
+                <i class="fas fa-chevron-right text-gray-300"></i>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm mb-4 flex justify-between items-center border border-gray-50" onclick="handleLogout()">
+                <div class="flex items-center gap-4 text-red-500 font-bold text-sm"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+                <i class="fas fa-chevron-right text-gray-200"></i>
+            </div>
+        </div>
+    </div>
+
+    <div id="task-modal" class="modal">
+        <div class="modal-content text-center">
+            <img id="m-img" src="" class="h-32 mx-auto mb-4 object-contain">
+            <h4 id="m-name" class="font-bold text-sm mb-1 truncate px-4"></h4>
+            <div class="bg-gray-50 p-5 rounded-2xl my-5">
+                <p class="text-[10px] text-gray-400 uppercase font-bold mb-1">Commission Earned</p>
+                <p id="m-comm" class="text-2xl font-black text-teal-600">+$ 0.00</p>
+            </div>
+            <button onclick="confirmTask()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">Confirm Submission</button>
         </div>
     </div>
 
     <div class="bottom-nav" id="main-nav" style="display: none;">
-        <div class="nav-item active" onclick="showPage('home-page')"><i class="fas fa-home text-lg"></i><p class="text-[10px] mt-1">Home</p></div>
-        <div class="nav-item" onclick="showPage('optimize-page')"><i class="fas fa-bolt text-lg"></i><p class="text-[10px] mt-1">Optimize</p></div>
-        <div class="nav-item" onclick="showPage('records-page')"><i class="fas fa-list-alt text-lg"></i><p class="text-[10px] mt-1">Records</p></div>
-        <div class="nav-item" onclick="alert('Profile active')"><i class="fas fa-user-circle text-lg"></i><p class="text-[10px] mt-1">My</p></div>
+        <div class="nav-item active" onclick="navigateTo('home-view')"><i class="fas fa-home text-xl mb-1"></i><p>Home</p></div>
+        <div class="nav-item" onclick="navigateTo('optimize-view')"><i class="fas fa-bolt text-xl mb-1"></i><p>Optimize</p></div>
+        <div class="nav-item" onclick="navigateTo('records-view')"><i class="fas fa-list-alt text-xl mb-1"></i><p>Records</p></div>
+        <div class="nav-item" onclick="navigateTo('my-view')"><i class="fas fa-user-circle text-xl mb-1"></i><p>My</p></div>
     </div>
 
     <script>
-        // BACKEND CONTROL VALUES (To be connected to Backend later)
-        let balance = 200.00;
-        let luckyOrderNum = 12; // Lucky Order triggers at 12th task
-        let luckyOrderAmt = 1500.00; // Lucky Order Price (will cause negative balance)
-        const REQUIRED_CODE = "LUCKY777";
+        // CORE SYSTEM DATA
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
 
-        // GLOBAL STATES
-        let storedUser = { name: "", pass: "" };
-        let count = 0; let profit = 0; let orders = []; let curIdx = -1;
-
-        // Amazon Product Data
         const products = [
-            { name: "Wireless Earbuds Pro", price: 299, img: "https://m.media-amazon.com/images/I/61SUj2WCx4L._AC_SL1500_.jpg" },
-            { name: "Galaxy S24 Ultra 1TB", price: 1499, img: "https://m.media-amazon.com/images/I/71R3m59h21L._AC_SL1500_.jpg" },
-            { name: "Sony WH-1000XM5", price: 398, img: "https://m.media-amazon.com/images/I/61S-YAn-N3L._AC_SL1500_.jpg" },
-            { name: "Paperwhite Kindle 16GB", price: 149, img: "https://m.media-amazon.com/images/I/51p6+h8K6xL._AC_SL1000_.jpg" },
-            { name: "Beelink SER9 Mini PC", price: 916, img: "https://m.media-amazon.com/images/I/71p0W2XW6XL._AC_SL1500_.jpg" }
+            { name: "Sony WH-1000XM5 Headset", price: 398, img: "https://m.media-amazon.com/images/I/61S-YAn-N3L._AC_SL1500_.jpg" },
+            { name: "Apple AirPods Pro (2nd Gen)", price: 249, img: "https://m.media-amazon.com/images/I/61SUj2WCx4L._AC_SL1500_.jpg" },
+            { name: "S24 Ultra Titanium Grey", price: 1200, img: "https://m.media-amazon.com/images/I/71R3m59h21L._AC_SL1500_.jpg" }
         ];
 
-        // 1. NAVIGATION
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            
-            // Bottom Nav Visibility
-            document.getElementById('main-nav').style.display = (id === 'register-page' || id === 'login-page') ? 'none' : 'flex';
-            
-            // Nav Highlighting
-            const navs = document.querySelectorAll('.nav-item');
-            navs.forEach(n => n.classList.remove('active'));
-            if(id === 'home-page') navs[0].classList.add('active');
-            if(id === 'optimize-page') { navs[1].classList.add('active'); initGrid(); }
-            if(id === 'records-page') { navs[2].classList.add('active'); renderRecords(); }
-        }
-
-        // 2. AUTH SYSTEM
+        // 1. AUTH LOGIC
         function handleRegister() {
             const u = document.getElementById('reg-user').value;
             const p = document.getElementById('reg-pass').value;
             const c = document.getElementById('reg-code').value;
-            if(!u || !p) return alert("Fill all fields!");
-            if(c !== REQUIRED_CODE) return alert("Invalid Invitation Code!");
-            storedUser = { name: u, pass: p };
+
+            if(!u || !p) return alert("Please fill all details!");
+            if(c !== "LUCKY777") return alert("Wrong Invite Code!");
+            if(allUsers.find(user => user.name === u)) return alert("User already exists!");
+
+            // Create New User with 10 USD Balance
+            const newUser = { name: u, pass: p, balance: 10.00, profit: 0, completed: 0, id: Math.floor(100000 + Math.random() * 900000) };
+            allUsers.push(newUser);
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            
             alert("Registration Success! Please Login.");
-            showPage('login-page');
+            navigateTo('login-view');
         }
 
         function handleLogin() {
             const u = document.getElementById('login-user').value;
             const p = document.getElementById('login-pass').value;
-            if(u === storedUser.name && p === storedUser.pass && u !== "") {
-                document.getElementById('u-name').innerText = u;
-                showPage('home-page');
-            } else { alert("Login Failed!"); }
-        }
 
-        // 3. OPTIMIZATION SYSTEM
-        function initGrid() {
-            const grid = document.getElementById('grid'); grid.innerHTML = "";
-            for(let i=0; i<16; i++) {
-                grid.innerHTML += `<div class="bg-white p-2 rounded-xl text-center shadow-sm border" onclick="openConfirmModal(${i%products.length})"><img src="${products[i%products.length].img}" class="h-16 mx-auto object-contain"></div>`;
-            }
-        }
-
-        function openConfirmModal(idx) {
-            if(completed >= 40) return alert("Task limit reached!");
-            curIdx = idx;
-            const p = products[idx];
-            document.getElementById('m-img').src = p.img;
-            document.getElementById('m-name').innerText = p.name;
-            document.getElementById('m-price').innerText = `$ ${p.price}`;
-            document.getElementById('confirm-modal').style.display = 'flex';
-        }
-
-        function closeConfirmModal() { document.getElementById('confirm-modal').style.display = 'none'; }
-
-        function finishOptimize() {
-            closeConfirmModal();
-            const taskNum = count + completed + 1;
-            
-            // Lucky Order Trigger check
-            if (taskNum === luckyOrderNum) {
-                showLuckyModal();
-                return;
-            }
-
-            // Normal Task success
-            completed++;
-            let comm = products[curIdx].price * 0.005;
-            profit += comm; balance += comm;
-            
-            orders.unshift({ name: products[curIdx].name, price: products[curIdx].price, comm: comm.toFixed(2), time: new Date().toLocaleTimeString(), status: "Completed", type: "Normal" });
-            updateUI();
-        }
-
-        // 4. LUCKY ORDER SYSTEM
-        function showLuckyModal() {
-            document.getElementById('lucky-modal').style.display = 'flex';
-            document.getElementById('l-price').innerText = `$ ${luckyOrderAmt.toFixed(2)}`;
-        }
-
-        function submitLucky() {
-            // Balance becomes negative
-            balance -= luckyOrderAmt;
-            let luckyComm = luckyOrderAmt * 0.035; // 3.5% for lucky order
-            profit += luckyComm;
-            // Note: Total balance will include commission but still be negative due to original balance deduction
-            balance += luckyComm;
-
-            orders.unshift({ name: products[curIdx].name, price: luckyOrderAmt, comm: luckyComm.toFixed(2), time: new Date().toLocaleTimeString(), status: "Pending (Needs Deposit)", type: "Lucky" });
-            
-            document.getElementById('lucky-modal').style.display = 'none';
-            completed++;
-            updateUI();
-            checkNegativeBalance();
-        }
-
-        function checkNegativeBalance() {
-            const balVal = document.getElementById('b-val');
-            if(balance < 0) {
-                balVal.classList.add('negative');
-                alert("Insufficient Balance! Order is frozen. Please contact customer service to deposit and unfreeze.");
-                // Freeze the optimization (optional - can disable product grid here)
+            const user = allUsers.find(user => user.name === u && user.pass === p);
+            if(user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                updateUI();
+                navigateTo('home-view');
             } else {
-                balVal.classList.remove('negative');
+                alert("Invalid Username or Password!");
             }
         }
 
-        // 5. RECORDS & UI
-        function renderRecords() {
-            const list = document.getElementById('order-list');
-            list.innerHTML = orders.length ? "" : "<p class='text-center mt-20 text-gray-400'>No records found.</p>";
-            orders.forEach(o => {
-                const isLucky = o.type === "Lucky";
-                list.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 ${isLucky ? 'border-orange-500' : 'border-teal-500'} text-gray-900 Record-card">
-                        <div class="flex justify-between items-start mb-2"><span class="font-bold text-sm truncate pr-4">${o.name}</span> <span class="text-xs font-black text-teal-600">+$${o.comm}</span></div>
-                        <div class="flex justify-between text-[10px] text-gray-400 mb-2"><span>Price: $${o.price}</span> <span>${o.time}</span></div>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="${isLucky ? 'text-orange-600' : 'text-blue-600'} font-bold italic">${o.status}</span>
-                            ${isLucky ? '<button onclick="openCSModal()" class="bg-orange-500 text-white px-4 py-1.5 rounded-full font-bold">Submit now</button>' : ''}
-                        </div>
-                    </div>`;
-            });
+        function handleLogout() {
+            localStorage.removeItem('currentUser');
+            location.reload();
         }
 
+        // 2. NAVIGATION
+        function navigateTo(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('main-nav').style.display = (id === 'register-view' || id === 'login-view') ? 'none' : 'flex';
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const navs = document.querySelectorAll('.nav-item');
+            if(id === 'home-view') navs[0].classList.add('active');
+            if(id === 'optimize-view') { navs[1].classList.add('active'); renderGrid(); }
+            if(id === 'my-view') navs[3].classList.add('active');
+        }
+
+        // 3. TASK SYSTEM
+        function renderGrid() {
+            const grid = document.getElementById('grid'); grid.innerHTML = "";
+            for(let i=0; i<6; i++) {
+                const p = products[i % products.length];
+                grid.innerHTML += `<div class="bg-white p-4 rounded-2xl shadow-sm text-center border border-gray-50"><img src="${p.img}" class="h-16 mx-auto mb-2 object-contain opacity-50"><p class="text-[9px] text-gray-300 font-bold uppercase">LOCKED TASK ${i+1}</p></div>`;
+            }
+        }
+
+        function triggerTask() {
+            if(currentUser.completed >= 40) return alert("Daily limit reached!");
+            const btn = document.getElementById('start-btn');
+            btn.innerText = "SEARCHING..."; btn.disabled = true;
+            
+            setTimeout(() => {
+                const p = products[Math.floor(Math.random() * products.length)];
+                document.getElementById('m-img').src = p.img;
+                document.getElementById('m-name').innerText = p.name;
+                const comm = p.price * 0.005;
+                document.getElementById('m-comm').innerText = `+$ ${comm.toFixed(2)}`;
+                document.getElementById('task-modal').style.display = 'flex';
+                btn.innerText = "START OPTIMIZATION"; btn.disabled = false;
+            }, 1200);
+        }
+
+        function confirmTask() {
+            const comm = parseFloat(document.getElementById('m-comm').innerText.replace('+$ ', ''));
+            currentUser.balance += comm;
+            currentUser.profit += comm;
+            currentUser.completed += 1;
+            
+            // Save to LocalStorage
+            const idx = allUsers.findIndex(u => u.name === currentUser.name);
+            allUsers[idx] = currentUser;
+            localStorage.setItem('allUsers', JSON.stringify(allUsers));
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            document.getElementById('task-modal').style.display = 'none';
+            updateUI();
+        }
+
+        // 4. UI UPDATES
         function updateUI() {
-            const balStr = `$ ${balance.toFixed(2)}`;
-            document.getElementById('b-val').innerText = balStr;
-            document.getElementById('main-balance').innerText = balStr;
-            document.getElementById('p-val').innerText = `$ ${profit.toFixed(2)}`;
-            document.getElementById('s-val').innerText = `${completed} / 40 Completed`;
-            document.getElementById('bar').style.width = `${(completed/40)*100}%`;
+            if(!currentUser) return;
+            const bal = currentUser.balance.toFixed(2);
+            document.getElementById('balance-main').innerText = `$ ${bal}`;
+            document.getElementById('h-profit').innerText = `$ ${currentUser.profit.toFixed(2)}`;
+            document.getElementById('h-count').innerText = `${currentUser.completed} / 40`;
+            document.getElementById('my-name').innerText = currentUser.name;
+            document.getElementById('my-id').innerText = currentUser.id;
+            document.getElementById('s-val').innerText = `${currentUser.completed} / 40`;
+            document.getElementById('bar').style.width = `${(currentUser.completed / 40) * 100}%`;
         }
 
-        // 6. CUSTOMER SERVICE
-        function openCSModal() { document.getElementById('cs-modal').style.display = 'flex'; }
-        function closeCSModal() { document.getElementById('cs-modal').style.display = 'none'; }
+        // Initial Load Check
+        if(currentUser) {
+            updateUI();
+            navigateTo('home-view');
+        }
     </script>
 </body>
 </html>
