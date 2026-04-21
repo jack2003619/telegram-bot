@@ -1,40 +1,47 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
+
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
-// MongoDB Connect
 mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log("MongoDB connected"))
+.then(() => console.log("MongoDB Connected"))
 .catch(err => console.log(err));
-
-// User Schema
-const UserSchema = new mongoose.Schema({
-  username: String,
-  balance: { type: Number, default: 0 }
-});
-
-const User = mongoose.model("User", UserSchema);
 
 // Home
 app.get("/", (req, res) => {
   res.send("Zonguru Backend Running 🚀");
 });
 
-// Create User
-app.post("/create-user", async (req, res) => {
-  const { username } = req.body;
-  const user = new User({ username });
-  await user.save();
-  res.json({ message: "User created", user });
+// Deposit
+app.post("/deposit", (req, res) => {
+  const { user, amount } = req.body;
+
+  res.json({
+    success: true,
+    message: `${user} deposited ${amount} USDT`
+  });
 });
 
-// Get Users
-app.get("/users", async (req, res) => {
-  const users = await User.find();
-  res.json(users);
+// Withdraw
+app.post("/withdraw", (req, res) => {
+  const { user, amount } = req.body;
+
+  res.json({
+    success: true,
+    message: `${user} withdraw ${amount} USDT`
+  });
 });
+
+const PORT = process.env.PORT || 10000;
+
+app.listen(PORT, () => {
+  console.log("Server Running on Port " + PORT);
+});});
 
 // Deposit
 app.post("/deposit", async (req, res) => {
