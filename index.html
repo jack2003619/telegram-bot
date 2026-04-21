@@ -3,264 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concentrix Platform Official</title>
+    <title>Concentrix - Digital Task Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main: #005a7d; --accent: #14b8a6; --bg: #f4f7f9; }
-        body { background: var(--bg); font-family: sans-serif; margin: 0; padding: 0; }
-        .view { display: none; min-height: 100vh; position: relative; }
-        .view.active { display: block; }
-        .dark-header { background: var(--main); color: white; padding: 30px 20px; border-bottom-left-radius: 40px; border-bottom-right-radius: 40px; }
-        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #eee; z-index: 1000; box-shadow: 0 -5px 15px rgba(0,0,0,0.05); }
-        .nav-item { color: #9ca3af; text-align: center; font-size: 11px; cursor: pointer; }
-        .nav-item.active { color: var(--main); font-weight: bold; }
-        .input-box { width: 100%; background: #f8fafc; border: 1px solid #e2e8f0; padding: 14px; border-radius: 12px; margin-bottom: 15px; outline: none; }
-        .auth-container { background: white; padding: 30px; border-radius: 30px; width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        :root { --main: #005a7d; --accent: #14b8a6; --lucky: #f97316; }
+        body { background: var(--main); color: white; font-family: sans-serif; margin: 0; user-select: none; }
+        .page { display: none; min-height: 100vh; padding-bottom: 90px; }
+        .page.active { display: block; }
+        .form-input { width: 100%; border: 1px solid #ddd; border-radius: 12px; padding: 15px; color: black; margin-bottom: 15px; background: #f9fafb; outline: none; }
+        .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #ddd; color: #888; z-index: 1000; }
+        .nav-item.active { color: var(--accent); }
+        .prod-img { height: 80px; object-fit: contain; }
+        .done { opacity: 0.3; pointer-events: none; border: 2px solid var(--accent) !important; }
+        
+        /* Modal Styles */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; color: black; border-radius: 25px; padding: 30px; text-align: center; width: 100%; max-width: 400px; }
+        .lucky-content { border: 5px solid var(--lucky); }
+        .negative { color: #ef4444 !important; }
     </style>
 </head>
 <body>
 
-    <div id="register-view" class="view active bg-[#005a7d] flex items-center justify-center">
-        <div class="auth-container mt-20 mx-auto">
-            <h1 class="text-3xl font-black italic text-[#005a7d] text-center mb-6 uppercase">concentrix</h1>
-            <h2 class="text-xl font-bold mb-6">Create Account</h2>
-            <input type="text" id="reg-user" class="input-box" placeholder="Username">
-            <input type="password" id="reg-pass" class="input-box" placeholder="Password">
-            <input type="text" id="reg-code" class="input-box" placeholder="Invitation Code (LUCKY777)">
-            <button onclick="handleRegister()" class="w-full bg-[#005a7d] text-white py-4 rounded-xl font-bold">Register</button>
-            <p class="text-center mt-6 text-sm">Already have an account? <span class="text-[#005a7d] font-bold" onclick="navigateTo('login-view')">Login</span></p>
+    <div id="register-page" class="page active bg-white text-gray-800 pt-16">
+        <div class="auth-card p-8 shadow-2xl rounded-3xl w-full max-w-sm mx-auto border border-gray-100">
+            <h1 class="text-3xl font-black italic text-[#005a7d] text-center mb-8 uppercase">concentrix</h1>
+            <h2 class="text-xl font-bold text-teal-500 mb-6">Create Account</h2>
+            <input type="text" id="reg-user" class="form-input" placeholder="Username">
+            <input type="password" id="reg-pass" class="form-input" placeholder="Password">
+            <input type="text" id="reg-code" class="form-input" placeholder="Invitation Code (LUCKY777)">
+            <button onclick="handleRegister()" class="w-full bg-teal-500 text-white py-4 rounded-xl font-bold text-lg shadow-lg">Register</button>
+            <p class="text-center mt-6 text-sm text-gray-500">Already have an account? <span class="text-teal-500 font-bold" onclick="showPage('login-page')">Login</span></p>
         </div>
     </div>
 
-    <div id="login-view" class="view bg-[#005a7d] flex items-center justify-center">
-        <div class="auth-container mt-20 mx-auto">
-            <h1 class="text-3xl font-black italic text-[#005a7d] text-center mb-6 uppercase">concentrix</h1>
-            <h2 class="text-xl font-bold mb-6">Login to continue</h2>
-            <input type="text" id="login-user" class="input-box" placeholder="Username">
-            <input type="password" id="login-pass" class="input-box" placeholder="Password">
-            <button onclick="handleLogin()" class="w-full bg-[#005a7d] text-white py-4 rounded-xl font-bold">Login Now</button>
-            <p class="text-center mt-6 text-sm">New user? <span class="text-[#005a7d] font-bold" onclick="navigateTo('register-view')">Create Account</span></p>
+    <div id="login-page" class="page bg-white text-gray-800 pt-16">
+        <div class="auth-card p-8 shadow-2xl rounded-3xl w-full max-w-sm mx-auto border border-gray-100">
+            <h1 class="text-3xl font-black italic text-[#005a7d] text-center mb-8 uppercase">concentrix</h1>
+            <h2 class="text-xl font-bold mb-6">Welcome Back</h2>
+            <input type="text" id="login-user" class="form-input" placeholder="Username">
+            <input type="password" id="login-pass" class="form-input" placeholder="Password">
+            <button onclick="handleLogin()" class="w-full bg-[#005a7d] text-white py-4 rounded-xl font-bold text-lg shadow-lg">Login</button>
         </div>
     </div>
 
-    <div id="home-view" class="view">
-        <div class="dark-header shadow-xl">
-            <div class="flex justify-between items-center mb-8">
-                <h1 class="text-2xl font-black italic">concentrix</h1>
-                <i class="fas fa-headset text-xl" onclick="navigateTo('cs-view')"></i>
+    <div id="home-page" class="page">
+        <div class="p-5 flex justify-between items-center bg-[#004d6b]">
+            <h1 class="text-2xl font-black italic">concentrix</h1>
+            <i class="fas fa-comment-dots text-xl text-teal-400" onclick="openCSModal()"></i>
+        </div>
+        <div class="p-6">
+            <h2 class="text-2xl font-light">Hi! Welcome</h2>
+            <div class="mt-3 bg-white/10 p-4 rounded-2xl flex justify-between items-center">
+                <span id="u-name" class="font-bold text-teal-400">Lalolargo <i class="fas fa-check-circle text-xs"></i></span>
+                <span class="text-xs bg-white/10 px-3 py-1 rounded-full">Score: 100</span>
             </div>
-            <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl">
-                <p class="text-xs opacity-70 mb-1">AVAILABLE ASSETS</p>
-                <h2 id="main-balance" class="text-4xl font-black">$ 6000.00</h2>
-                <div class="flex gap-4 mt-8">
-                    <button onclick="navigateTo('deposit-view')" class="flex-1 bg-white text-[#005a7d] py-3 rounded-xl font-bold shadow-sm">Deposit</button>
-                    <button onclick="navigateTo('withdraw-view')" class="flex-1 bg-teal-500 text-white py-3 rounded-xl font-bold shadow-sm">Withdraw</button>
+            <div class="bg-white rounded-3xl p-6 mt-6 shadow-2xl flex items-center gap-5 text-gray-800">
+                <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center text-4xl">🏆</div>
+                <div>
+                    <h4 class="font-black text-amber-500 text-lg">VIP Level 1</h4>
+                    <p class="text-xs text-gray-400">0.50 Profits per task <br>40 Tasks/Set</p>
                 </div>
             </div>
         </div>
-        <div class="p-6">
-            <h3 class="font-bold mb-4">Level System</h3>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 border-yellow-400 mb-4 flex justify-between items-center" onclick="navigateTo('task-view')">
-                <div><h4 class="font-bold">VIP 1 Optimization</h4><p class="text-xs text-gray-400">40 Orders / 0.5% Commission</p></div>
-                <i class="fas fa-bolt text-teal-500"></i>
+    </div>
+
+    <div id="optimize-page" class="page pb-28">
+        <div class="p-5 text-xl font-bold border-b border-white/10 bg-[#004d6b]">Optimization</div>
+        <div id="grid" class="grid grid-cols-4 gap-3 p-4"></div>
+        <div class="p-5">
+            <div class="bg-white text-gray-900 rounded-3xl p-6 shadow-xl sticky bottom-20 z-50 border">
+                <div class="flex justify-between font-bold mb-2 text-sm text-gray-400"><span>Today's Profit</span> <span>Available Balance</span></div>
+                <div class="flex justify-between font-black text-xl mb-4 text-[#005a7d]"><span id="p-val">$ 0.00</span> <span id="b-val">$ 200.00</span></div>
+                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-2"><div id="bar" class="bg-teal-500 h-full w-0"></div></div>
+                <p id="s-val" class="text-center text-xs text-gray-400">0 / 40 Completed</p>
             </div>
         </div>
     </div>
 
-    <div id="task-view" class="view bg-gray-50 pb-24">
-        <div class="p-5 bg-white border-b flex justify-between items-center sticky top-0 z-50">
-            <i class="fas fa-chevron-left" onclick="navigateTo('home-view')"></i>
-            <span class="font-bold text-[#005a7d]">OPTIMIZATION</span>
-            <span class="text-xs font-bold bg-blue-100 text-blue-600 px-3 py-1 rounded-full">VIP 1</span>
+    <div id="records-page" class="page bg-gray-50">
+        <div class="p-5 text-xl font-bold border-b bg-white text-[#005a7d]">Order Records</div>
+        <div id="order-list" class="p-4 space-y-4">
+            <p class="text-center text-gray-400 mt-20">No Records Found</p>
         </div>
-        <div id="product-grid" class="grid grid-cols-2 gap-4 p-5">
-            </div>
-        <div class="p-5 sticky bottom-20">
-            <div class="bg-white p-6 rounded-3xl shadow-xl border border-teal-50">
-                <div class="flex justify-between mb-2"><span class="text-xs font-bold text-gray-400">PROGRESS</span><span id="prog-count" class="text-sm font-black text-[#005a7d]">0 / 40</span></div>
-                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-4"><div id="prog-bar" class="bg-teal-500 h-full w-0"></div></div>
-                <div class="flex justify-between"><div><p class="text-[10px] text-gray-400">Profit</p><p id="profit-val" class="font-black text-teal-600">$ 0.00</p></div><div class="text-right text-[10px] text-gray-400">Status<p class="text-blue-500 font-bold">Active</p></div></div>
+    </div>
+
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content">
+            <img id="m-img" src="" class="prod-img mx-auto mb-4">
+            <p id="m-name" class="font-bold text-sm mb-2 truncate"></p>
+            <p id="m-price" class="text-3xl font-black text-teal-600 mb-6"></p>
+            <div class="flex gap-4">
+                <button onclick="closeConfirmModal()" class="flex-1 bg-gray-100 py-3 rounded-xl font-bold">Cancel</button>
+                <button onclick="finishOptimize()" class="flex-1 bg-teal-500 text-white py-3 rounded-xl font-bold">Confirm</button>
             </div>
         </div>
     </div>
 
-    <div id="deposit-view" class="view bg-white">
-        <div class="p-5 bg-[#005a7d] text-white flex items-center gap-4">
-            <i class="fas fa-chevron-left" onclick="navigateTo('home-view')"></i><span class="font-bold">Recharge</span>
-        </div>
-        <div class="p-6">
-            <p class="font-bold mb-4">Choose Currency</p>
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <div onclick="selectCrypto('USDT')" class="border-2 p-4 rounded-xl text-center font-bold hover:border-teal-500">USDT</div>
-                <div onclick="selectCrypto('BTC')" class="border-2 p-4 rounded-xl text-center font-bold hover:border-teal-500">BTC</div>
+    <div id="lucky-modal" class="modal">
+        <div class="modal-content lucky-content">
+            <div class="text-6xl mb-4">🚀</div>
+            <h3 class="text-2xl font-black text-orange-500 italic mb-3">Lucky Order Encouneterd!</h3>
+            <p class="text-gray-500 text-sm mb-6">High commission task found. Requires account balance check.</p>
+            <div class="bg-gray-100 p-5 rounded-2xl mb-8">
+                <p class="text-[10px] text-gray-400 uppercase font-bold">Lucky Order Amount</p>
+                <p id="l-price" class="text-3xl font-black text-red-500"></p>
             </div>
-            <div id="addr-box" class="hidden">
-                <p class="text-xs text-gray-400 mb-2">Deposit Address:</p>
-                <div class="bg-gray-100 p-4 rounded-xl flex justify-between items-center text-xs font-mono mb-8">
-                    <span id="crypto-addr">TTr9z...Y3vK</span><i class="fas fa-copy text-teal-500"></i>
-                </div>
-                <button onclick="alert('Transaction Submitted!')" class="w-full bg-[#005a7d] text-white py-4 rounded-xl font-bold">Confirm Recharge</button>
-            </div>
+            <button onclick="submitLucky()" class="w-full bg-orange-500 text-white py-4 rounded-xl font-bold text-lg">Submit Now (Pending)</button>
         </div>
     </div>
 
-    <div id="withdraw-view" class="view bg-white">
-        <div class="p-5 bg-[#005a7d] text-white flex items-center gap-4">
-            <i class="fas fa-chevron-left" onclick="navigateTo('home-view')"></i><span class="font-bold">Withdrawal</span>
-        </div>
-        <div class="p-6">
-            <div class="bg-gray-50 p-6 rounded-2xl mb-6">
-                <p class="text-xs text-gray-400">Withdrawable Assets</p>
-                <p id="w-balance" class="text-3xl font-black text-[#005a7d]">$ 6000.00</p>
-            </div>
-            <input type="text" class="input-box" placeholder="TRC20 Wallet Address">
-            <input type="number" id="w-amt" class="input-box" placeholder="Enter Amount">
-            <button onclick="handleWithdraw()" class="w-full bg-gray-900 text-white py-4 rounded-xl font-bold">Withdraw Now</button>
-        </div>
-    </div>
-
-    <div id="records-view" class="view bg-gray-50 pb-20">
-        <div class="p-5 bg-white border-b font-bold text-[#005a7d]">ORDER RECORDS</div>
-        <div id="record-list" class="p-4 space-y-3">
-            <p class="text-center text-gray-400 mt-20">No active records.</p>
-        </div>
-    </div>
-
-    <div id="profile-view" class="view">
-        <div class="dark-header text-center pb-12">
-            <div class="w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl">👤</div>
-            <h2 class="text-xl font-bold">Lalolargo</h2>
-            <p class="text-xs opacity-60">ID: 5509210</p>
-        </div>
-        <div class="p-6 -mt-8">
-            <div class="bg-white p-6 rounded-2xl shadow-sm mb-4 flex justify-between items-center" onclick="navigateTo('cs-view')">
-                <div class="flex items-center gap-3"><i class="fas fa-headset text-blue-500"></i><span>Customer Service</span></div>
-                <i class="fas fa-chevron-right text-gray-300"></i>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm mb-4 flex justify-between items-center" onclick="location.reload()">
-                <div class="flex items-center gap-3"><i class="fas fa-sign-out-alt text-red-500"></i><span>Logout</span></div>
-            </div>
-        </div>
-    </div>
-
-    <div id="cs-view" class="view bg-white text-center">
-        <div class="p-5 bg-[#005a7d] text-white flex items-center gap-4">
-            <i class="fas fa-chevron-left" onclick="navigateTo('home-view')"></i><span class="font-bold">Contact Admin</span>
-        </div>
-        <div class="p-10">
-            <i class="fab fa-telegram text-6xl text-blue-500 mb-6"></i>
-            <h3 class="text-xl font-bold mb-4">Telegram Support</h3>
-            <a href="https://t.me/your_admin_link" class="block w-full bg-[#005a7d] text-white py-4 rounded-xl font-bold">Message Agent</a>
+    <div id="cs-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="font-bold text-lg mb-6">Select Service</h3>
+            <button onclick="window.open('https://t.me/YOUR_TELEGRAM_LINK')" class="w-full bg-blue-500 text-white py-4 rounded-xl font-bold mb-4 flex items-center justify-center gap-3"><i class="fab fa-telegram-plane text-xl"></i>Telegram Support</button>
+            <button onclick="alert('Live Chat opening...')" class="w-full bg-teal-500 text-white py-4 rounded-xl font-bold flex items-center justify-center gap-3"><i class="fas fa-headset text-xl"></i>Live Chat</button>
+            <button onclick="closeCSModal()" class="mt-4 text-sm text-gray-400">Close</button>
         </div>
     </div>
 
     <div class="bottom-nav" id="main-nav" style="display: none;">
-        <div class="nav-item active" onclick="navigateTo('home-view')"><i class="fas fa-home text-xl"></i><p>Home</p></div>
-        <div class="nav-item" onclick="navigateTo('task-view')"><i class="fas fa-bolt text-xl"></i><p>Task</p></div>
-        <div class="nav-item" onclick="navigateTo('records-view')"><i class="fas fa-list text-xl"></i><p>Records</p></div>
-        <div class="nav-item" onclick="navigateTo('profile-view')"><i class="fas fa-user-circle text-xl"></i><p>Profile</p></div>
+        <div class="nav-item active" onclick="showPage('home-page')"><i class="fas fa-home text-lg"></i><p class="text-[10px] mt-1">Home</p></div>
+        <div class="nav-item" onclick="showPage('optimize-page')"><i class="fas fa-bolt text-lg"></i><p class="text-[10px] mt-1">Optimize</p></div>
+        <div class="nav-item" onclick="showPage('records-page')"><i class="fas fa-list-alt text-lg"></i><p class="text-[10px] mt-1">Records</p></div>
+        <div class="nav-item" onclick="alert('Profile active')"><i class="fas fa-user-circle text-lg"></i><p class="text-[10px] mt-1">My</p></div>
     </div>
 
     <script>
-        let balance = 6000.00; let completed = 0; let profit = 0; let orders = [];
-        let userData = { user: "", pass: "" };
+        // BACKEND CONTROL VALUES (To be connected to Backend later)
+        let balance = 200.00;
+        let luckyOrderNum = 12; // Lucky Order triggers at 12th task
+        let luckyOrderAmt = 1500.00; // Lucky Order Price (will cause negative balance)
+        const REQUIRED_CODE = "LUCKY777";
 
-        function navigateTo(id) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        // GLOBAL STATES
+        let storedUser = { name: "", pass: "" };
+        let count = 0; let profit = 0; let orders = []; let curIdx = -1;
+
+        // Amazon Product Data
+        const products = [
+            { name: "Wireless Earbuds Pro", price: 299, img: "https://m.media-amazon.com/images/I/61SUj2WCx4L._AC_SL1500_.jpg" },
+            { name: "Galaxy S24 Ultra 1TB", price: 1499, img: "https://m.media-amazon.com/images/I/71R3m59h21L._AC_SL1500_.jpg" },
+            { name: "Sony WH-1000XM5", price: 398, img: "https://m.media-amazon.com/images/I/61S-YAn-N3L._AC_SL1500_.jpg" },
+            { name: "Paperwhite Kindle 16GB", price: 149, img: "https://m.media-amazon.com/images/I/51p6+h8K6xL._AC_SL1000_.jpg" },
+            { name: "Beelink SER9 Mini PC", price: 916, img: "https://m.media-amazon.com/images/I/71p0W2XW6XL._AC_SL1500_.jpg" }
+        ];
+
+        // 1. NAVIGATION
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             
-            // Show/Hide Nav
-            const noNav = ['register-view', 'login-view', 'cs-view', 'deposit-view', 'withdraw-view'];
-            document.getElementById('main-nav').style.display = noNav.includes(id) ? 'none' : 'flex';
+            // Bottom Nav Visibility
+            document.getElementById('main-nav').style.display = (id === 'register-page' || id === 'login-page') ? 'none' : 'flex';
             
             // Nav Highlighting
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             const navs = document.querySelectorAll('.nav-item');
-            if(id === 'home-view') navs[0].classList.add('active');
-            if(id === 'task-view') { navs[1].classList.add('active'); initGrid(); }
-            if(id === 'records-view') { navs[2].classList.add('active'); renderRecords(); }
-            if(id === 'profile-view') navs[3].classList.add('active');
+            navs.forEach(n => n.classList.remove('active'));
+            if(id === 'home-page') navs[0].classList.add('active');
+            if(id === 'optimize-page') { navs[1].classList.add('active'); initGrid(); }
+            if(id === 'records-page') { navs[2].classList.add('active'); renderRecords(); }
         }
 
+        // 2. AUTH SYSTEM
         function handleRegister() {
             const u = document.getElementById('reg-user').value;
             const p = document.getElementById('reg-pass').value;
             const c = document.getElementById('reg-code').value;
-            if(!u || !p) return alert("Fill all details!");
-            if(c !== "LUCKY777") return alert("Wrong Invitation Code!");
-            userData = { user: u, pass: p };
-            alert("Register Success! Now please Login.");
-            navigateTo('login-view');
+            if(!u || !p) return alert("Fill all fields!");
+            if(c !== REQUIRED_CODE) return alert("Invalid Invitation Code!");
+            storedUser = { name: u, pass: p };
+            alert("Registration Success! Please Login.");
+            showPage('login-page');
         }
 
         function handleLogin() {
             const u = document.getElementById('login-user').value;
             const p = document.getElementById('login-pass').value;
-            if(u === userData.user && p === userData.pass && u !== "") {
-                navigateTo('home-view');
+            if(u === storedUser.name && p === storedUser.pass && u !== "") {
+                document.getElementById('u-name').innerText = u;
+                showPage('home-page');
             } else { alert("Login Failed!"); }
         }
 
-        function selectCrypto(type) {
-            document.getElementById('addr-box').classList.remove('hidden');
-            document.getElementById('crypto-addr').innerText = type === 'USDT' ? "TTr9zE2S6nQ4WvLp89aXqR7mY3vK1uH7z" : "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
-        }
-
-        function handleWithdraw() {
-            const amt = parseFloat(document.getElementById('w-amt').value);
-            if(!amt || amt > balance) return alert("Invalid Amount!");
-            balance -= amt;
-            updateUI();
-            alert("Withdrawal Processed!");
-            navigateTo('home-view');
-        }
-
+        // 3. OPTIMIZATION SYSTEM
         function initGrid() {
-            const grid = document.getElementById('product-grid'); grid.innerHTML = "";
-            const prods = [
-                { name: "AirPods Pro", price: 249, img: "https://m.media-amazon.com/images/I/61SUj2WCx4L._AC_SL1500_.jpg" },
-                { name: "S24 Ultra", price: 1200, img: "https://m.media-amazon.com/images/I/71R3m59h21L._AC_SL1500_.jpg" },
-                { name: "Sony WH-1000XM5", price: 398, img: "https://m.media-amazon.com/images/I/61S-YAn-N3L._AC_SL1500_.jpg" },
-                { name: "Kindle 16GB", price: 149, img: "https://m.media-amazon.com/images/I/51p6+h8K6xL._AC_SL1000_.jpg" }
-            ];
-            prods.forEach((p, i) => {
-                grid.innerHTML += `
-                    <div class="bg-white p-4 rounded-2xl shadow-sm text-center">
-                        <img src="${p.img}" class="h-24 w-full object-contain mb-2">
-                        <p class="text-[10px] text-gray-400 truncate">${p.name}</p>
-                        <p class="font-bold text-sm mb-3">$ ${p.price}</p>
-                        <button onclick="doTask(this, ${p.price}, '${p.name}')" class="w-full bg-[#005a7d] text-white py-2 rounded-xl text-[10px] font-bold">OPTIMIZE</button>
+            const grid = document.getElementById('grid'); grid.innerHTML = "";
+            for(let i=0; i<16; i++) {
+                grid.innerHTML += `<div class="bg-white p-2 rounded-xl text-center shadow-sm border" onclick="openConfirmModal(${i%products.length})"><img src="${products[i%products.length].img}" class="h-16 mx-auto object-contain"></div>`;
+            }
+        }
+
+        function openConfirmModal(idx) {
+            if(completed >= 40) return alert("Task limit reached!");
+            curIdx = idx;
+            const p = products[idx];
+            document.getElementById('m-img').src = p.img;
+            document.getElementById('m-name').innerText = p.name;
+            document.getElementById('m-price').innerText = `$ ${p.price}`;
+            document.getElementById('confirm-modal').style.display = 'flex';
+        }
+
+        function closeConfirmModal() { document.getElementById('confirm-modal').style.display = 'none'; }
+
+        function finishOptimize() {
+            closeConfirmModal();
+            const taskNum = count + completed + 1;
+            
+            // Lucky Order Trigger check
+            if (taskNum === luckyOrderNum) {
+                showLuckyModal();
+                return;
+            }
+
+            // Normal Task success
+            completed++;
+            let comm = products[curIdx].price * 0.005;
+            profit += comm; balance += comm;
+            
+            orders.unshift({ name: products[curIdx].name, price: products[curIdx].price, comm: comm.toFixed(2), time: new Date().toLocaleTimeString(), status: "Completed", type: "Normal" });
+            updateUI();
+        }
+
+        // 4. LUCKY ORDER SYSTEM
+        function showLuckyModal() {
+            document.getElementById('lucky-modal').style.display = 'flex';
+            document.getElementById('l-price').innerText = `$ ${luckyOrderAmt.toFixed(2)}`;
+        }
+
+        function submitLucky() {
+            // Balance becomes negative
+            balance -= luckyOrderAmt;
+            let luckyComm = luckyOrderAmt * 0.035; // 3.5% for lucky order
+            profit += luckyComm;
+            // Note: Total balance will include commission but still be negative due to original balance deduction
+            balance += luckyComm;
+
+            orders.unshift({ name: products[curIdx].name, price: luckyOrderAmt, comm: luckyComm.toFixed(2), time: new Date().toLocaleTimeString(), status: "Pending (Needs Deposit)", type: "Lucky" });
+            
+            document.getElementById('lucky-modal').style.display = 'none';
+            completed++;
+            updateUI();
+            checkNegativeBalance();
+        }
+
+        function checkNegativeBalance() {
+            const balVal = document.getElementById('b-val');
+            if(balance < 0) {
+                balVal.classList.add('negative');
+                alert("Insufficient Balance! Order is frozen. Please contact customer service to deposit and unfreeze.");
+                // Freeze the optimization (optional - can disable product grid here)
+            } else {
+                balVal.classList.remove('negative');
+            }
+        }
+
+        // 5. RECORDS & UI
+        function renderRecords() {
+            const list = document.getElementById('order-list');
+            list.innerHTML = orders.length ? "" : "<p class='text-center mt-20 text-gray-400'>No records found.</p>";
+            orders.forEach(o => {
+                const isLucky = o.type === "Lucky";
+                list.innerHTML += `
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border-l-4 ${isLucky ? 'border-orange-500' : 'border-teal-500'} text-gray-900 Record-card">
+                        <div class="flex justify-between items-start mb-2"><span class="font-bold text-sm truncate pr-4">${o.name}</span> <span class="text-xs font-black text-teal-600">+$${o.comm}</span></div>
+                        <div class="flex justify-between text-[10px] text-gray-400 mb-2"><span>Price: $${o.price}</span> <span>${o.time}</span></div>
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="${isLucky ? 'text-orange-600' : 'text-blue-600'} font-bold italic">${o.status}</span>
+                            ${isLucky ? '<button onclick="openCSModal()" class="bg-orange-500 text-white px-4 py-1.5 rounded-full font-bold">Submit now</button>' : ''}
+                        </div>
                     </div>`;
             });
         }
 
-        function doTask(btn, price, name) {
-            if(completed >= 40) return alert("Limit Reached!");
-            btn.innerText = "Processing..."; btn.disabled = true;
-            setTimeout(() => {
-                completed++; let c = price * 0.005; profit += c; balance += c;
-                orders.unshift({ name, comm: c.toFixed(2), time: new Date().toLocaleTimeString() });
-                updateUI();
-                btn.innerText = "DONE ✓"; btn.style.background = "#14b8a6";
-            }, 800);
-        }
-
-        function renderRecords() {
-            const list = document.getElementById('record-list');
-            list.innerHTML = orders.length ? "" : "<p class='text-center mt-20 text-gray-300'>No records.</p>";
-            orders.forEach(o => {
-                list.innerHTML += `<div class="bg-white p-4 rounded-xl flex justify-between items-center shadow-sm border-l-4 border-teal-500"><div><p class="text-xs font-bold">${o.name}</p><p class="text-[10px] text-gray-400">${o.time}</p></div><div class="text-teal-600 font-bold">+$${o.comm}</div></div>`;
-            });
-        }
-
         function updateUI() {
-            document.getElementById('main-balance').innerText = `$ ${balance.toFixed(2)}`;
-            document.getElementById('w-balance').innerText = `$ ${balance.toFixed(2)}`;
-            document.getElementById('profit-val').innerText = `$ ${profit.toFixed(2)}`;
-            document.getElementById('prog-count').innerText = `${completed} / 40`;
-            document.getElementById('prog-bar').style.width = `${(completed/40)*100}%`;
+            const balStr = `$ ${balance.toFixed(2)}`;
+            document.getElementById('b-val').innerText = balStr;
+            document.getElementById('main-balance').innerText = balStr;
+            document.getElementById('p-val').innerText = `$ ${profit.toFixed(2)}`;
+            document.getElementById('s-val').innerText = `${completed} / 40 Completed`;
+            document.getElementById('bar').style.width = `${(completed/40)*100}%`;
         }
+
+        // 6. CUSTOMER SERVICE
+        function openCSModal() { document.getElementById('cs-modal').style.display = 'flex'; }
+        function closeCSModal() { document.getElementById('cs-modal').style.display = 'none'; }
     </script>
 </body>
 </html>
