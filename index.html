@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concentrix Platform - Official System</title>
+    <title>Concentrix - Global E-Commerce</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main: #005a7d; --accent: #14b8a6; }
-        body { background: #f4f7f9; font-family: sans-serif; margin: 0; }
+        :root { --main: #005a7d; --teal: #14b8a6; }
+        body { background: #f4f7f9; font-family: 'Segoe UI', sans-serif; margin: 0; user-select: none; }
         .view { display: none; min-height: 100vh; }
         .view.active { display: block; }
         .bottom-nav { position: fixed; bottom: 0; width: 100%; background: white; display: flex; justify-content: space-around; padding: 12px 0; border-top: 1px solid #eee; z-index: 1000; }
         .nav-item { color: #9ca3af; text-align: center; font-size: 10px; cursor: pointer; flex: 1; }
         .nav-item.active { color: var(--main); font-weight: bold; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
-        .modal-content { background: white; border-radius: 24px; padding: 24px; width: 100%; max-width: 360px; }
+        .modal-content { background: white; border-radius: 24px; padding: 24px; width: 100%; max-width: 360px; animation: pop 0.3s ease; }
+        @keyframes pop { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
     </style>
 </head>
 <body>
@@ -25,9 +26,9 @@
             <h1 class="text-3xl font-black italic text-[#005a7d] text-center mb-8 uppercase">concentrix</h1>
             <input type="text" id="reg-user" class="w-full border p-4 rounded-2xl mb-4 bg-gray-50 outline-none" placeholder="Username">
             <input type="password" id="reg-pass" class="w-full border p-4 rounded-2xl mb-4 bg-gray-50 outline-none" placeholder="Password">
-            <input type="text" id="reg-code" class="w-full border p-4 rounded-2xl mb-8 bg-gray-50 outline-none" placeholder="Invite Code (LUCKY777)">
+            <input type="text" id="reg-code" class="w-full border p-4 rounded-2xl mb-8 bg-gray-50 outline-none" placeholder="Invitation Code (LUCKY777)">
             <button onclick="handleRegister()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">Register Now</button>
-            <p class="text-center mt-6 text-sm">Already have an account? <span class="text-[#005a7d] font-bold cursor-pointer" onclick="navigateTo('login-view')">Login</span></p>
+            <p class="text-center mt-6 text-sm">Have account? <span class="text-[#005a7d] font-bold cursor-pointer" onclick="navigateTo('login-view')">Login here</span></p>
         </div>
     </div>
 
@@ -37,62 +38,73 @@
             <input type="text" id="login-user" class="w-full border p-4 rounded-2xl mb-4 bg-gray-50 outline-none" placeholder="Username">
             <input type="password" id="login-pass" class="w-full border p-4 rounded-2xl mb-8 bg-gray-50 outline-none" placeholder="Password">
             <button onclick="handleLogin()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">Login</button>
-            <p class="text-center mt-6 text-sm">New here? <span class="text-[#005a7d] font-bold cursor-pointer" onclick="navigateTo('register-view')">Create Account</span></p>
+            <p class="text-center mt-6 text-sm">New user? <span class="text-[#005a7d] font-bold cursor-pointer" onclick="navigateTo('register-view')">Register Now</span></p>
         </div>
     </div>
 
     <div id="home-view" class="view">
         <div class="bg-[#005a7d] p-6 text-white flex justify-between items-center">
             <h1 class="text-xl font-black italic">concentrix</h1>
-            <i class="fas fa-headset text-xl" onclick="navigateTo('cs-view')"></i>
+            <i class="fas fa-headset text-xl" onclick="alert('Support is busy')"></i>
         </div>
         <div class="m-5 bg-white rounded-[32px] p-6 shadow-sm border border-gray-50">
-            <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase tracking-wider">Total Balance (USD)</p>
-            <h2 id="balance-main" class="text-4xl font-black text-[#005a7d] mb-8">$ 10.00</h2>
+            <p class="text-[10px] text-gray-400 font-bold mb-1 uppercase tracking-wider">Total Assets (USD)</p>
+            <h2 id="h-balance" class="text-4xl font-black text-[#005a7d] mb-8">$ 10.00</h2>
             <div class="flex gap-4">
-                <button onclick="navigateTo('deposit-view')" class="flex-1 bg-[#005a7d] text-white py-3.5 rounded-2xl font-bold shadow-md">Deposit</button>
-                <button onclick="navigateTo('withdraw-view')" class="flex-1 bg-teal-500 text-white py-3.5 rounded-2xl font-bold shadow-md">Withdraw</button>
+                <button class="flex-1 bg-[#005a7d] text-white py-3.5 rounded-2xl font-bold shadow-md">Deposit</button>
+                <button class="flex-1 bg-teal-500 text-white py-3.5 rounded-2xl font-bold shadow-md">Withdraw</button>
             </div>
         </div>
         <div class="px-5 grid grid-cols-2 gap-4">
-            <div class="bg-white p-4 rounded-2xl flex items-center gap-3 shadow-sm">
-                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-500"><i class="fas fa-chart-line"></i></div>
-                <div><p class="text-[10px] text-gray-400">Today Profit</p><p id="h-profit" class="font-bold text-sm">$ 0.00</p></div>
+            <div class="bg-white p-5 rounded-3xl flex items-center gap-3 shadow-sm border border-gray-50">
+                <div class="text-blue-500 bg-blue-50 p-3 rounded-2xl"><i class="fas fa-coins"></i></div>
+                <div><p class="text-[10px] text-gray-400">Profit</p><p id="h-profit" class="font-bold text-sm">$ 0.00</p></div>
             </div>
-            <div class="bg-white p-4 rounded-2xl flex items-center gap-3 shadow-sm">
-                <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center text-orange-500"><i class="fas fa-check-double"></i></div>
-                <div><p class="text-[10px] text-gray-400">Completed</p><p id="h-count" class="font-bold text-sm">0 / 40</p></div>
+            <div class="bg-white p-5 rounded-3xl flex items-center gap-3 shadow-sm border border-gray-50">
+                <div class="text-teal-500 bg-teal-50 p-3 rounded-2xl"><i class="fas fa-check-circle"></i></div>
+                <div><p class="text-[10px] text-gray-400">Tasks</p><p id="h-count" class="font-bold text-sm">0 / 40</p></div>
             </div>
         </div>
     </div>
 
-    <div id="optimize-view" class="view bg-gray-50 pb-28">
-        <div class="p-5 bg-white border-b font-bold text-[#005a7d] flex items-center gap-3">
-            <i class="fas fa-bolt"></i> OPTIMIZATION
+    <div id="optimize-view" class="view bg-gray-50 pb-32">
+        <div class="p-6 bg-white border-b font-bold text-[#005a7d] flex justify-between">
+            <span>TASK OPTIMIZATION</span>
+            <span class="text-xs bg-teal-100 text-teal-600 px-3 py-1 rounded-full">VIP 1</span>
         </div>
-        <div id="grid" class="grid grid-cols-2 gap-4 p-5"></div>
+        <div id="amazon-grid" class="grid grid-cols-2 gap-4 p-5"></div>
+        
         <div class="px-5 fixed bottom-24 left-0 right-0">
-            <div class="bg-white p-6 rounded-[30px] shadow-2xl border">
-                <div class="flex justify-between mb-2 text-[10px] font-bold text-gray-400 uppercase"><span>Job Progress</span> <span id="s-val">0 / 40</span></div>
-                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-4"><div id="bar" class="bg-teal-500 h-full w-0"></div></div>
-                <button id="start-btn" onclick="triggerTask()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">START OPTIMIZATION</button>
+            <div class="bg-white p-6 rounded-[35px] shadow-2xl border border-blue-50">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Progress </span>
+                    <span id="s-val" class="text-xs font-black text-[#005a7d]">0 / 40</span>
+                </div>
+                <div class="w-full bg-gray-100 h-2 rounded-full overflow-hidden mb-6"><div id="p-bar" class="bg-teal-500 h-full w-0 transition-all duration-700"></div></div>
+                <button id="start-btn" onclick="triggerLuckyOrder()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-xl active:scale-95 transition-all">START OPTIMIZE</button>
             </div>
         </div>
+    </div>
+
+    <div id="records-view" class="view bg-gray-50">
+        <div class="p-6 bg-white border-b font-bold text-[#005a7d]">ORDER HISTORY</div>
+        <div id="order-list" class="p-5 space-y-4">
+            </div>
     </div>
 
     <div id="my-view" class="view">
-        <div class="bg-[#005a7d] pt-16 pb-24 px-8 text-white rounded-b-[50px] text-center shadow-lg">
-            <div class="w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl border-2 border-white/30 shadow-inner">👤</div>
-            <h2 id="my-name" class="text-2xl font-black italic">User</h2>
-            <p class="text-xs opacity-60">Account ID: <span id="my-id"></span></p>
+        <div class="bg-[#005a7d] pt-16 pb-24 px-10 text-white rounded-b-[60px] text-center shadow-lg">
+            <div class="w-24 h-24 bg-white/20 rounded-full mx-auto mb-4 flex items-center justify-center text-4xl border-2 border-white/30">👤</div>
+            <h2 id="m-user" class="text-2xl font-black italic">Username</h2>
+            <p id="m-id" class="text-xs opacity-50 font-medium mt-1">ID: 000000</p>
         </div>
         <div class="px-6 -mt-10">
-            <div class="bg-white p-6 rounded-2xl shadow-sm mb-4 flex justify-between items-center border border-gray-50" onclick="navigateTo('cs-view')">
-                <div class="flex items-center gap-4 text-gray-700 font-bold text-sm"><i class="fas fa-headset text-blue-500"></i> Customer Service</div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm mb-4 border border-gray-50 flex justify-between items-center" onclick="navigateTo('records-view')">
+                <div class="flex items-center gap-4 font-bold text-sm text-gray-700"><i class="fas fa-history text-blue-500"></i> My Records</div>
                 <i class="fas fa-chevron-right text-gray-300"></i>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm mb-4 flex justify-between items-center border border-gray-50" onclick="handleLogout()">
-                <div class="flex items-center gap-4 text-red-500 font-bold text-sm"><i class="fas fa-sign-out-alt"></i> Sign Out</div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm mb-4 border border-gray-50 flex justify-between items-center" onclick="handleLogout()">
+                <div class="flex items-center gap-4 font-bold text-sm text-red-500"><i class="fas fa-power-off"></i> Logout</div>
                 <i class="fas fa-chevron-right text-gray-200"></i>
             </div>
         </div>
@@ -100,17 +112,18 @@
 
     <div id="task-modal" class="modal">
         <div class="modal-content text-center">
-            <img id="m-img" src="" class="h-32 mx-auto mb-4 object-contain">
-            <h4 id="m-name" class="font-bold text-sm mb-1 truncate px-4"></h4>
-            <div class="bg-gray-50 p-5 rounded-2xl my-5">
-                <p class="text-[10px] text-gray-400 uppercase font-bold mb-1">Commission Earned</p>
-                <p id="m-comm" class="text-2xl font-black text-teal-600">+$ 0.00</p>
+            <div class="text-[10px] text-teal-600 font-black mb-2 tracking-widest uppercase">Lucky Order Found!</div>
+            <img id="modal-img" src="" class="h-40 mx-auto mb-4 object-contain rounded-xl">
+            <h3 id="modal-name" class="font-bold text-gray-800 mb-4 px-2 text-sm line-clamp-2"></h3>
+            <div class="bg-gray-50 p-4 rounded-2xl mb-6 flex justify-between items-center border border-gray-100">
+                <div class="text-left"><p class="text-[9px] text-gray-400 font-bold uppercase">Reward</p><p id="modal-comm" class="text-xl font-black text-teal-600">+$ 0.00</p></div>
+                <div class="text-right"><p class="text-[9px] text-gray-400 font-bold uppercase">Price</p><p id="modal-price" class="text-xs font-bold text-gray-600">$ 0.00</p></div>
             </div>
-            <button onclick="confirmTask()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-lg">Confirm Submission</button>
+            <button onclick="confirmTask()" class="w-full bg-[#005a7d] text-white py-4 rounded-2xl font-bold shadow-xl">Confirm & Submit</button>
         </div>
     </div>
 
-    <div class="bottom-nav" id="main-nav" style="display: none;">
+    <div class="bottom-nav" id="main-nav" style="display:none;">
         <div class="nav-item active" onclick="navigateTo('home-view')"><i class="fas fa-home text-xl mb-1"></i><p>Home</p></div>
         <div class="nav-item" onclick="navigateTo('optimize-view')"><i class="fas fa-bolt text-xl mb-1"></i><p>Optimize</p></div>
         <div class="nav-item" onclick="navigateTo('records-view')"><i class="fas fa-list-alt text-xl mb-1"></i><p>Records</p></div>
@@ -118,127 +131,137 @@
     </div>
 
     <script>
-        // CORE SYSTEM DATA
-        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-        let allUsers = JSON.parse(localStorage.getItem('allUsers')) || [];
+        let allUsers = JSON.parse(localStorage.getItem('users')) || [];
+        let session = JSON.parse(localStorage.getItem('active_session')) || null;
+        let history = JSON.parse(localStorage.getItem('order_history')) || [];
 
-        const products = [
-            { name: "Sony WH-1000XM5 Headset", price: 398, img: "https://m.media-amazon.com/images/I/61S-YAn-N3L._AC_SL1500_.jpg" },
-            { name: "Apple AirPods Pro (2nd Gen)", price: 249, img: "https://m.media-amazon.com/images/I/61SUj2WCx4L._AC_SL1500_.jpg" },
-            { name: "S24 Ultra Titanium Grey", price: 1200, img: "https://m.media-amazon.com/images/I/71R3m59h21L._AC_SL1500_.jpg" }
+        // Amazon Product Photos
+        const amazonProducts = [
+            { name: "Apple iPhone 15 Pro Max, 256GB, Blue Titanium", price: 1199, img: "https://m.media-amazon.com/images/I/81+GIkwqLIL._AC_SL1500_.jpg" },
+            { name: "Sennheiser Momentum 4 Wireless Headphones", price: 379, img: "https://m.media-amazon.com/images/I/61S-YAn-N3L._AC_SL1500_.jpg" },
+            { name: "Logitech MX Master 3S Wireless Performance Mouse", price: 99, img: "https://m.media-amazon.com/images/I/61SUj2WCx4L._AC_SL1500_.jpg" },
+            { name: "Kindle Paperwhite (16 GB) - 6.8\" Display", price: 149, img: "https://m.media-amazon.com/images/I/51p6+h8K6xL._AC_SL1000_.jpg" },
+            { name: "Sony WH-1000XM5 Noise Canceling Headphones", price: 398, img: "https://m.media-amazon.com/images/I/61I24wOsn8L._AC_SL1500_.jpg" },
+            { name: "Apple Watch Series 9 [GPS 45mm] Smartwatch", price: 429, img: "https://m.media-amazon.com/images/I/71XmCqUo7eL._AC_SL1500_.jpg" }
         ];
 
-        // 1. AUTH LOGIC
+        function navigateTo(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('main-nav').style.display = (id.includes('register') || id.includes('login')) ? 'none' : 'flex';
+            
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(n => n.classList.remove('active'));
+            if(id === 'home-view') navItems[0].classList.add('active');
+            if(id === 'optimize-view') { navItems[1].classList.add('active'); renderGrid(); }
+            if(id === 'records-view') { navItems[2].classList.add('active'); renderRecords(); }
+            if(id === 'my-view') navItems[3].classList.add('active');
+        }
+
         function handleRegister() {
-            const u = document.getElementById('reg-user').value;
+            const u = document.getElementById('reg-user').value.trim();
             const p = document.getElementById('reg-pass').value;
             const c = document.getElementById('reg-code').value;
 
-            if(!u || !p) return alert("Please fill all details!");
-            if(c !== "LUCKY777") return alert("Wrong Invite Code!");
-            if(allUsers.find(user => user.name === u)) return alert("User already exists!");
+            if(!u || !p) return alert("Fill all fields");
+            if(c !== "LUCKY777") return alert("Invalid Invite Code");
+            if(allUsers.find(x => x.u === u)) return alert("User exists!");
 
-            // Create New User with 10 USD Balance
-            const newUser = { name: u, pass: p, balance: 10.00, profit: 0, completed: 0, id: Math.floor(100000 + Math.random() * 900000) };
+            const newUser = { u, p, balance: 10.00, profit: 0.00, count: 0, id: Math.floor(100000 + Math.random() * 900000) };
             allUsers.push(newUser);
-            localStorage.setItem('allUsers', JSON.stringify(allUsers));
-            
-            alert("Registration Success! Please Login.");
+            localStorage.setItem('users', JSON.stringify(allUsers));
+            alert("Success! Login now.");
             navigateTo('login-view');
         }
 
         function handleLogin() {
-            const u = document.getElementById('login-user').value;
+            const u = document.getElementById('login-user').value.trim();
             const p = document.getElementById('login-pass').value;
-
-            const user = allUsers.find(user => user.name === u && user.pass === p);
+            const user = allUsers.find(x => x.u === u && x.p === p);
             if(user) {
-                currentUser = user;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                session = user;
+                localStorage.setItem('active_session', JSON.stringify(session));
                 updateUI();
                 navigateTo('home-view');
-            } else {
-                alert("Invalid Username or Password!");
-            }
+            } else { alert("Login failed!"); }
         }
 
         function handleLogout() {
-            localStorage.removeItem('currentUser');
+            localStorage.removeItem('active_session');
             location.reload();
         }
 
-        // 2. NAVIGATION
-        function navigateTo(id) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.getElementById('main-nav').style.display = (id === 'register-view' || id === 'login-view') ? 'none' : 'flex';
-            
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const navs = document.querySelectorAll('.nav-item');
-            if(id === 'home-view') navs[0].classList.add('active');
-            if(id === 'optimize-view') { navs[1].classList.add('active'); renderGrid(); }
-            if(id === 'my-view') navs[3].classList.add('active');
-        }
-
-        // 3. TASK SYSTEM
         function renderGrid() {
-            const grid = document.getElementById('grid'); grid.innerHTML = "";
-            for(let i=0; i<6; i++) {
-                const p = products[i % products.length];
-                grid.innerHTML += `<div class="bg-white p-4 rounded-2xl shadow-sm text-center border border-gray-50"><img src="${p.img}" class="h-16 mx-auto mb-2 object-contain opacity-50"><p class="text-[9px] text-gray-300 font-bold uppercase">LOCKED TASK ${i+1}</p></div>`;
-            }
+            const grid = document.getElementById('amazon-grid'); grid.innerHTML = "";
+            amazonProducts.forEach((p, i) => {
+                grid.innerHTML += `<div class="bg-white p-4 rounded-3xl shadow-sm text-center border border-gray-50">
+                    <img src="${p.img}" class="h-20 mx-auto mb-2 object-contain opacity-50 grayscale">
+                    <p class="text-[8px] font-black text-gray-300 uppercase">Product ${i+1}</p>
+                </div>`;
+            });
         }
 
-        function triggerTask() {
-            if(currentUser.completed >= 40) return alert("Daily limit reached!");
+        function triggerLuckyOrder() {
+            if(session.count >= 40) return alert("Limit reached!");
             const btn = document.getElementById('start-btn');
-            btn.innerText = "SEARCHING..."; btn.disabled = true;
-            
+            btn.innerText = "Matching Lucky Order..."; btn.disabled = true;
+
             setTimeout(() => {
-                const p = products[Math.floor(Math.random() * products.length)];
-                document.getElementById('m-img').src = p.img;
-                document.getElementById('m-name').innerText = p.name;
-                const comm = p.price * 0.005;
-                document.getElementById('m-comm').innerText = `+$ ${comm.toFixed(2)}`;
+                const p = amazonProducts[Math.floor(Math.random() * amazonProducts.length)];
+                const comm = (p.price * 0.005).toFixed(2);
+                document.getElementById('modal-img').src = p.img;
+                document.getElementById('modal-name').innerText = p.name;
+                document.getElementById('modal-comm').innerText = `+$ ${comm}`;
+                document.getElementById('modal-price').innerText = `$ ${p.price}`;
                 document.getElementById('task-modal').style.display = 'flex';
-                btn.innerText = "START OPTIMIZATION"; btn.disabled = false;
-            }, 1200);
+                btn.innerText = "START OPTIMIZE"; btn.disabled = false;
+            }, 1500);
         }
 
         function confirmTask() {
-            const comm = parseFloat(document.getElementById('m-comm').innerText.replace('+$ ', ''));
-            currentUser.balance += comm;
-            currentUser.profit += comm;
-            currentUser.completed += 1;
+            const comm = parseFloat(document.getElementById('modal-comm').innerText.replace('+$ ', ''));
+            const name = document.getElementById('modal-name').innerText;
             
-            // Save to LocalStorage
-            const idx = allUsers.findIndex(u => u.name === currentUser.name);
-            allUsers[idx] = currentUser;
-            localStorage.setItem('allUsers', JSON.stringify(allUsers));
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            
+            session.balance += comm;
+            session.profit += comm;
+            session.count += 1;
+
+            const order = { name, comm, time: new Date().toLocaleString(), status: "Completed" };
+            history.unshift(order);
+            localStorage.setItem('order_history', JSON.stringify(history));
+
+            const idx = allUsers.findIndex(x => x.u === session.u);
+            allUsers[idx] = session;
+            localStorage.setItem('users', JSON.stringify(allUsers));
+            localStorage.setItem('active_session', JSON.stringify(session));
+
             document.getElementById('task-modal').style.display = 'none';
             updateUI();
         }
 
-        // 4. UI UPDATES
-        function updateUI() {
-            if(!currentUser) return;
-            const bal = currentUser.balance.toFixed(2);
-            document.getElementById('balance-main').innerText = `$ ${bal}`;
-            document.getElementById('h-profit').innerText = `$ ${currentUser.profit.toFixed(2)}`;
-            document.getElementById('h-count').innerText = `${currentUser.completed} / 40`;
-            document.getElementById('my-name').innerText = currentUser.name;
-            document.getElementById('my-id').innerText = currentUser.id;
-            document.getElementById('s-val').innerText = `${currentUser.completed} / 40`;
-            document.getElementById('bar').style.width = `${(currentUser.completed / 40) * 100}%`;
+        function renderRecords() {
+            const list = document.getElementById('order-list');
+            list.innerHTML = history.length ? "" : "<p class='text-center text-gray-400 py-20'>No history found.</p>";
+            history.forEach(o => {
+                list.innerHTML += `<div class="bg-white p-5 rounded-3xl shadow-sm border-l-4 border-teal-500">
+                    <div class="flex justify-between font-bold text-sm mb-1"><span>${o.name.substring(0, 25)}...</span><span class="text-teal-600">+$${o.comm}</span></div>
+                    <div class="flex justify-between text-[10px] text-gray-400 uppercase font-bold"><span>${o.time}</span><span class="text-blue-500">${o.status}</span></div>
+                </div>`;
+            });
         }
 
-        // Initial Load Check
-        if(currentUser) {
-            updateUI();
-            navigateTo('home-view');
+        function updateUI() {
+            if(!session) return;
+            document.getElementById('h-balance').innerText = `$ ${session.balance.toFixed(2)}`;
+            document.getElementById('h-profit').innerText = `$ ${session.profit.toFixed(2)}`;
+            document.getElementById('h-count').innerText = `${session.count} / 40`;
+            document.getElementById('s-val').innerText = `${session.count} / 40`;
+            document.getElementById('p-bar').style.width = `${(session.count / 40) * 100}%`;
+            document.getElementById('m-user').innerText = session.u;
+            document.getElementById('m-id').innerText = `ID: ${session.id}`;
         }
+
+        if(session) { updateUI(); navigateTo('home-view'); }
     </script>
 </body>
 </html>
