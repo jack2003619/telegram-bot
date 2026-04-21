@@ -4,8 +4,7 @@
   "description": "Zonguru Backend API",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node index.js"
+    "start": "node index.js"
   },
   "keywords": [
     "zonguru",
